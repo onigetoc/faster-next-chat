@@ -7,9 +7,20 @@ interface InputAreaProps {
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   disabled?: boolean;
+  onStop?: () => void;
+  onRegenerate?: () => void;
+  isLoading?: boolean;
 }
 
-function InputArea({ input, handleInputChange, handleSubmit, disabled }: InputAreaProps) {
+function InputArea({
+  input,
+  handleInputChange,
+  handleSubmit,
+  disabled,
+  onStop,
+  onRegenerate,
+  isLoading
+}: InputAreaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustHeight = (element: HTMLTextAreaElement) => {
@@ -47,6 +58,33 @@ function InputArea({ input, handleInputChange, handleSubmit, disabled }: InputAr
             resizable={false}
             rows={1}
           />
+        </div>
+        <div className="flex items-end gap-2">
+          {isLoading && onStop && (
+            <button
+              onClick={onStop}
+              className="rounded-lg bg-red-500 px-3 py-2 text-sm font-medium text-white hover:bg-red-600"
+              type="button"
+            >
+              Stop
+            </button>
+          )}
+          {!isLoading && onRegenerate && (
+            <button
+              onClick={onRegenerate}
+              className="rounded-lg bg-blue-500 px-3 py-2 text-sm font-medium text-white hover:bg-blue-600"
+              type="button"
+            >
+              Regenerate
+            </button>
+          )}
+          <button
+            type="submit"
+            disabled={disabled || !input.trim()}
+            className="rounded-lg bg-green-500 px-3 py-2 text-sm font-medium text-white hover:bg-green-600 disabled:opacity-50"
+          >
+            Send
+          </button>
         </div>
       </form>
     </div>

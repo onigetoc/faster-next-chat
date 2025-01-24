@@ -27,6 +27,9 @@ export function usePersistentChat({ id: chatId, model }: PersistentChatOptions) 
     input,
     handleInputChange,
     handleSubmit: originalHandleSubmit,
+    stop,
+    reload,
+    usage,
     //setMessages,
   } = useChat({
     api: "/api/chat",
@@ -145,8 +148,11 @@ export function usePersistentChat({ id: chatId, model }: PersistentChatOptions) 
     input,
     handleInputChange,
     handleSubmit,
-    isLoading,
+    isLoading: false,
     error,
     currentChat,
+    stop,
+    reload,
+    usage,
   };
 }

@@ -6,6 +6,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import InputArea from "./InputArea";
 import MessageList from "./MessageList";
 import ModelSelector from "./ModelSelector";
+import TokenUsage from "./TokenUsage";
 
 interface ChatInterfaceProps {
   chatId?: string;
@@ -22,6 +23,9 @@ function ChatInterface({ chatId }: ChatInterfaceProps) {
     handleInputChange,
     handleSubmit,
     isLoading,
+    stop,
+    reload,
+    usage,
     //currentChat
   } = usePersistentChat({
     id: chatId,
@@ -49,13 +53,17 @@ function ChatInterface({ chatId }: ChatInterfaceProps) {
 
       <div className="absolute bottom-0 w-full pr-2">
         <div className="mx-auto w-full max-w-3xl">
-          <InputArea
-            input={input}
-            handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
-            disabled={isLoading}
-          />
-          <ModelSelector currentModel={model} onModelChange={setModel} />
+            <TokenUsage usage={usage} />
+            <InputArea
+              input={input}
+              handleInputChange={handleInputChange}
+              handleSubmit={handleSubmit}
+              disabled={isLoading}
+              onStop={stop}
+              onRegenerate={messages.length > 0 ? reload : undefined}
+              isLoading={isLoading}
+            />
+            <ModelSelector currentModel={model} onModelChange={setModel} />
         </div>
       </div>
     </div>
